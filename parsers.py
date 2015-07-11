@@ -78,6 +78,8 @@ def processing_log(mode, string):
         detail_dict = parser_lighttpd(string)
     if mode == 3:
         detail_dict = parser_nginx(string)
+    if mode == 4:
+        detail_dict = parser_ats(string)
 
     if detail_dict is not None:
         print detail_dict # test
