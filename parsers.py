@@ -22,10 +22,51 @@ def parser_lighttpd(string):
         return None
 
 
+def parser_nginx(string):
+
+    format_string = "{ip} \
+{http_x_forwarded_for} \
+[{time}] \
+{http_host} \
+\"{request}\" \
+{status} \
+{bytes_sent} \
+\"{http_referer}\" \
+{http_user_agentt}"
+    detail = parse.parse(format_string, string)
+    if detail is not None:
+        return detail.named
+    else:
+        return None
+
+
+def parser_nginx(string):
+
+    format_string = "{ip} \
+{http_x_forwarded_for} \
+[{time}] \
+{http_host} \
+\"{request}\" \
+{status} \
+{bytes_sent} \
+\"{http_referer}\" \
+{http_user_agentt}"
+    detail = parse.parse(format_string, string)
+    if detail is not None:
+        return detail.named
+    else:
+        return None
+
+
 def processing_log(mode, string):
 
     if mode == 2:
-        print parser_lighttpd(string)
+        detail_dict = parser_lighttpd(string)
+    if mode == 3:
+        detail_dict = parser_nginx(string)
+
+    if detail_dict is not None:
+        print detail_dict # test
         # send to sentry..
 
 
