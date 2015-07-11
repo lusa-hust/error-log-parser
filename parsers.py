@@ -7,13 +7,14 @@ def parser_lighttpd(string):
     format_string = "{ip} \
 [{time}] \
 \"{request}\" \
-{status} {bytesent} \
+{status} \
+{byte_sent} \
 \"{referer}\" \
-\"{uagent}\" \
-{bytein} \
-{byteout} \
-{timeused} \
-{rhostname}"
+\"{user_agent}\" \
+{byte_in} \
+{byte_out} \
+{time_used} \
+{request_hostname}"
     detail = parse.parse(format_string, string)
     if detail is not None:
         return detail.named
