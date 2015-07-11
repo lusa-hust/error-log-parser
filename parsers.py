@@ -57,6 +57,20 @@ def parser_nginx(string):
         return None
 
 
+def parser_ats(string):
+
+    format_string = "{time} RESPONSE: sent \
+{ip} status \
+{status} \
+({accelerator}) for \
+\'{http_referer}\'"
+    detail = parse.parse(format_string, string)
+    if detail is not None:
+        return detail.named
+    else:
+        return None
+
+
 def processing_log(mode, string):
 
     if mode == 2:
