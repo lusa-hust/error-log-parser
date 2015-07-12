@@ -13,9 +13,9 @@ def initialize_connection(dsn):
     return client
 
 
-def push_to_sentry(client, errors):
+def push_to_sentry(client, error_type, errors):
     client.capture(
         'raven.events.Message',
-        message='foo',
+        message=error_type,
         extra=errors
-    )
+    ) 
