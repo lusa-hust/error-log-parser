@@ -1,0 +1,2 @@
+'$remote_addr $http_x_forwarded_for [$time_iso8601] $http_host "$request" $status $bytes_sent "$http_referer" "$http_user_agentt
+" "$gzip_ratio" $request_time $request_completion $upstream_addr'
