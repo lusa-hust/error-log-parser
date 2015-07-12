@@ -1,7 +1,7 @@
 import parsers
 import sentry
 
-
+LOG_TYPE =['HAProxy', 'lighttpd', 'nginx', 'ATS'] 
 if __name__ == '__main__':
     
     if len(sys.argv) != 3:
@@ -17,10 +17,16 @@ if __name__ == '__main__':
         3. nginx
         4. ATS""")
 
+    # initialize connection to sentry server
+    client = sentry.initialize_connection(
+        "http://ea8723b06f824d55b49031a702caa2c6:20fdb8b37c354c05b9c5c6ae1807c4a7@sentry.platform.vn/11"
+    )
+    
+    type_of_log = LOG_TYPE[mode - 1]
+    
     with open(sys.argv[2]) as f:
         for line in f:
             detail_dict = parsers.processing_log(mode, line.strip())
-            if detail_dict == '502' or detail_dict == '503':
-                # send to sentry server
-                
+            if detail_dict['status_code'] == '502' or detail_dict['status_code'] == '503':
+                sentry.push_to_sentry(client, type_of_log, detail_dict)
                 
