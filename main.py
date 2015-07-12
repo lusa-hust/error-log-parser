@@ -29,8 +29,9 @@ if __name__ == '__main__':
         for line in f:
             detail_dict = parsers.processing_log(mode, line.strip())
             try:
-                if detail_dict['status_code'] == '502' or detail_dict['status_code'] == '503':
-                    sentry.push_to_sentry(client, type_of_log, detail_dict)
+                if detail_dict['status_code'] == '200' or detail_dict['status_code'] == '404':
+                    message_send = type_of_log + " " + detail_dict['status_code']
+                    sentry.push_to_sentry(client, message_send, detail_dict)
             except Exception, e:
                 print e
                 
