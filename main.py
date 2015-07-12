@@ -1,3 +1,4 @@
+import sys
 import parsers
 import sentry
 
@@ -27,6 +28,9 @@ if __name__ == '__main__':
     with open(sys.argv[2]) as f:
         for line in f:
             detail_dict = parsers.processing_log(mode, line.strip())
-            if detail_dict['status_code'] == '502' or detail_dict['status_code'] == '503':
-                sentry.push_to_sentry(client, type_of_log, detail_dict)
+            try:
+                if detail_dict['status_code'] == '502' or detail_dict['status_code'] == '503':
+                    sentry.push_to_sentry(client, type_of_log, detail_dict)
+            except Exception, e:
+                print e
                 
