@@ -1,6 +1,6 @@
 import sys
 import parsers
-import sentry
+import raven
 
 LOG_TYPE =['HAProxy', 'lighttpd', 'nginx', 'ATS'] 
 if __name__ == '__main__':
@@ -19,7 +19,7 @@ if __name__ == '__main__':
         4. ATS""")
 
     # initialize connection to sentry server
-    client = sentry.initialize_connection(
+    client = raven.Client(
         "http://ea8723b06f824d55b49031a702caa2c6:20fdb8b37c354c05b9c5c6ae1807c4a7@sentry.platform.vn/11"
     )
     
@@ -31,7 +31,10 @@ if __name__ == '__main__':
             try:
                 if detail_dict['status_code'] == '200' or detail_dict['status_code'] == '404':
                     message_send = type_of_log + " " + detail_dict['status_code']
-                    sentry.push_to_sentry(client, message_send, detail_dict)
+                    client.capture(
+                        'raven.events.Message',
+                        message=message_send,
+                        extra=detail_dict
+                    )
             except Exception, e:
                 print e
-                
