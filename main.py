@@ -2,6 +2,7 @@ import sys
 import parsers
 import raven
 
+
 LOG_TYPE =['HAProxy', 'lighttpd', 'nginx', 'ATS'] 
 if __name__ == '__main__':
     
@@ -27,14 +28,14 @@ if __name__ == '__main__':
     
     with open(sys.argv[2]) as f:
         for line in f:
-            detail_dict = parsers.processing_log(mode, line.strip())
+            error_log = parsers.processing_log(mode, line.strip())
             try:
                 if detail_dict['status_code'] == '200' or detail_dict['status_code'] == '404':
                     message_send = type_of_log + " " + detail_dict['status_code']
                     client.capture(
                         'raven.events.Message',
                         message=message_send,
-                        extra=detail_dict
+                        extra=error_log
                     )
             except Exception, e:
                 print e
