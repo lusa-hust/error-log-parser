@@ -30,12 +30,12 @@ if __name__ == '__main__':
         for line in f:
             error_log = parsers.processing_log(mode, line.strip())
             try:
-                if detail_dict['status_code'] == '200' or detail_dict['status_code'] == '404':
-                    message_send = type_of_log + " " + detail_dict['status_code']
+                if error_log['status_code'] == '503' or error_log['status_code'] == '502':
+                    message_send = type_of_log + " " + error_log['status_code']
                     client.capture(
                         'raven.events.Message',
                         message=message_send,
                         extra=error_log
                     )
-            except Exception, e:
-                print e
+            except Exception, error:
+                print error

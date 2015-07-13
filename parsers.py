@@ -61,6 +61,7 @@ FORMAT_STRING = {
 {country} \
 {actconn}/{feconn}/{beconn}/{srv_conn}/{retries} \
 {srv_queue}/{backend_queue} \
+\"{http_request}\""
 }
 
 
