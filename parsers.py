@@ -3,7 +3,7 @@ import parse
 
 FORMAT_STRING = {
     'HAPROXY':
-"{ip}:{port} \
+'{ip}:{port} \
 [{times}] \
 {frontend_name_transport} \
 {backend_name}/{server_name} \
@@ -15,12 +15,12 @@ FORMAT_STRING = {
 {country} \
 {actconn}/{feconn}/{beconn}/{srv_conn}/{retries} \
 {srv_queue}/{backend_queue} \
-{{{other}}} \"{http_request}\"",
+{{{other}}} "{http_request}"',
 
     'LIGHTTPD':
-"{ip} \
+'{ip} \
 [{time}] \
-\"{http_request}\" \
+"{http_request}" \
 {status_code} \
 {byte_sent} \
 \"{referer}\" \
@@ -28,28 +28,28 @@ FORMAT_STRING = {
 {byte_in} \
 {byte_out} \
 {time_used} \
-{request_hostname}",
+{request_hostname}',
 
     'NGINX':
-"{ip} \
+'{ip} \
 {http_x_forwarded_for} \
 [{time}] \
 {http_host} \
 \"{http_request}\" \
 {status_code} \
 {bytes_sent} \
-\"{http_referer}\" \
-{http_user_agentt}",
+"{http_referer}" \
+{http_user_agentt}',
 
     'ATS':
 "{time} RESPONSE: sent \
 {ip} status \
 {status_code} \
 ({accelerator}) for \
-\'{http_referer}\'",
+'{http_referer}'",
 
     'HAPROXY2':
-"{ip}:{port} \
+'{ip}:{port} \
 [{times}] \
 {frontend_name_transport} \
 {backend_name}/{server_name} \
@@ -61,7 +61,7 @@ FORMAT_STRING = {
 {country} \
 {actconn}/{feconn}/{beconn}/{srv_conn}/{retries} \
 {srv_queue}/{backend_queue} \
-\"{http_request}\""
+"{http_request}"'
 }
 
 
@@ -93,9 +93,8 @@ def processing_log(mode, input_string):
 
     if error_info is None and mode is 1:
         error_info = log_parsers(5, input_string)
-        # print detail_dict # test
 
-    if error_info is not None:
-        return error_info
-    else:
-        return None
+    if error_info is None:
+        raise 'Wrong log format', input_string
+
+    return error_info
